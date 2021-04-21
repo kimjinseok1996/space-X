@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+        section{
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        #section1{
+            background: #8fe7ff;         
+        }
+        #section1 #human{
+            width: 100px;
+            height: 200px;
+            position: absolute;
+            left: 100px;
+            bottom: 50px;
+            z-index: 99;
+        }
+        #section1 #human img{
+            width: 100px;
+        }
+        #section1 #ship{
+            width: 130px;
+            height: 200px;
+            position: fixed;
+            right: 50px;
+            bottom: 100px;
+            z-index: 99;
+        }
+        #section1 #ship #shipbody img{
+            position: absolute;
+            z-index: 100;
+            width: 130px;
+        }
+        #section1 #ship #shipfire img{
+            position: absolute;
+            z-index: 99;
+            top: 0px;
+            width: 130px;
+            opacity: 0;
+        }
+        #section1 #ship #shipfire img.fire{
+            top: 170px;
+            opacity: 1;
+            transition: 0.3s;
+        }
+        #section1 #rand{
+            width: 100%;
+            height: 100px;
+            background: #036b00;
+            position: absolute;
+            bottom: 0;
+            z-index: 98;
+            border-radius: 20% 20% 0 0;
+        }
+        #section2{
+            background: linear-gradient(black, #8fe7ff);
+        }
+        #section3{
+            background: black;
+        }
+        #section4{
+            background: black;
+        }
+        #section5{
+            background: black;
+        }
+        #section5 #marsrand{
+            width: 100%;
+            height: 200px;
+            background: #8a6708;
+            position: relative;
+            z-index: 98;
+            border-radius: 0 0 15% 15%;
+        }
+        #section5 #marsrand #marsship img{
+            width: 130px;
+            position: absolute;
+            top: 50px;
+            right:250px;
+            transform: rotate(-30deg);
+            display: none;
+        }
+        #section5 #marsrand #marsman img{
+            width: 200px;
+            position: absolute;
+            top: -10px;
+            left:250px;
+            display: none;
+        }
+    </style>
+    <script>
+        $(function(){
+            $("body,html").animate({"scrollTop":$("body,html").height()},0);
+
+            
+            $("#human").draggable({revert:true});
+            $("#ship").droppable({accept:"#human", drop:function(event,ui){
+                $("body,html").css({"overflow-y":"visible"});
+                $("#human").css({"display":"none"});
+                $("#section1 #ship #shipbody img").attr("src","manboardedship.png");
+            }});
+            
+            
+            var sec1top = $("#section1").offset().top;
+            var sec5top = $("#section5").offset().top;
+
+            $(window).scroll(function(){
+            var wintop = $(window).scrollTop();
+               
+                if(wintop < sec1top){
+                   $("#section1 #ship #shipfire img").addClass("fire");
+                   $("body,html").css({"overflow-y":"visible"});
+                   $("#section1 #ship #shipbody img").attr("src","manboardedship.png");
+                   $("#section1 #human").css({"display":"none"});
+                    $("#section1 #ship").css({"display":"block"});
+                    $("#section5 #marsrand #marsship img").css({"display":"none"});
+                    $("#section5 #marsrand #marsman img").css({"display":"none"});
+                    
+                    if(wintop < 10){
+                    $("#section1 #ship").css({"display":"none"});
+                    $("#section5 #marsrand #marsship img").css({"display":"block"});
+                    $("#section5 #marsrand #marsman img").css({"display":"block"});
+                }
+                  }
+                else{
+                    $("#section1 #ship #shipfire img").removeClass("fire");
+                    $("#section1 #ship #shipbody img").attr("src","spaceship.png");
+                    $("#section1 #human").css({"display":"block"});
+                    $("#section1 #ship").css({"display":"block"});
+                    $("#section5 #marsrand #marsship img").css({"display":"none"});
+                    $("#section5 #marsrand #marsman img").css({"display":"none"});
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <section id="section5">
+        <div id="marsrand">
+            <div id="marsship">
+                <img src="marsship.png" alt="marsship">
+            </div>
+            <div id="marsman">
+                <img src="Elon-Muskunscreen.gif" alt="marsship">
+            </div>
+        </div>
+    </section>
+    <section id="section4"></section>
+    <section id="section3"></section>
+    <section id="section2"></section>
+    <section id="section1">
+        <div id="human">
+            <img src="man.png" alt="man">
+        </div>
+        <div id="ship">
+            <div id="shipbody"><img src="spaceship.png" alt="spaceship"></div>
+            <div id="shipfire"><img src="fire.png" alt="fire"></div>
+        </div>
+        <div id="rand"></div>
+    </section> 
+</body>
+</html>
